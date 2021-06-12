@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+        <div class="container pagination justify-content-end">
+            <a href="/welcome">Go Back</a>
+        </div>
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="container p-3">
+        <h1>Edit Ride {{ride.id}}</h1>
+        <div class="row">
+            <div class="col">
+                <h3>Log a Ride</h3>
+                <form action="/log_ride" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" name="date" class="form-control">
+                    </div><br>
+                    <div class="form-group">
+                        <label>Trail Name:</label>
+                        <select class="form-select" name="trail">
+                            <option selected>Choose one</option>
+                            <option value="1">Mission Trail</option>
+                            <option value="2">Brackenridge Park</option>
+                            <option value="3">King William</option>
+                            <option value="4">Pearl Brewery</option>
+                            <option value="5">Alamo Hemisfair</option>
+                        </select>
+                    </div><br>
+                    <div class="form-group">
+                        <label>Distance:</label>
+                        <input type="text" name="distance" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Time:</label>
+                        <input type="text" name="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Notes:</label>
+                        <textarea class="form-control" name="notes" rows="5"></textarea>
+                    </div>
+                    <button class="btn btn-success" type="submit">Enter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

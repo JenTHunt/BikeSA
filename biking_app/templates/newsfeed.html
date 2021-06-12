@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsfeed</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Newsfeed</a>
+        <a class="nav-item nav-link mx-3" href="/home">Home</a>
+        <a class="nav-item nav-link mx-3" href="/welcome">Profile</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto"></ul>
+            <span class="navbar-text">
+                <p class="navbar-text mr-4">Hello {{request.session.user_name}}!</p>
+                <a href="/logout">Logout</a>
+            </span>
+        </div>
+    </nav>
+
+    <div class="container p-4">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col">
+                    <form action="/create_post" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Add Post</label>
+                            <input type="text" name="message" class="form-control">
+                        </div>
+                        <button class="btn btn-success">Submit</button>
+                    </form>
+                    
+                    {% for post in posts reversed %}
+                    <hr color="darkcyan">
+                    <div class="post p-4">
+                        <strong>{{post.poster.username}}</strong>: {{post.message}}<br>
+                        <a href="/like/{{post.id}}">Like</a> {{post.likes.count}} <br>
+                        <a href="/posts/{{post.id}}/delete">Delete</a>
+                        {% for comment in post.post_comments.all %} <br>
+                        <div class="comment">
+                            <strong>{{comment.poster.username}}</strong>: {{comment.comment}} <br>
+                            <a href="/comments/{{comment.id}}/delete">Delete</a>
+                        </div>
+                        {% endfor %}
+                            <form action="/add_comment/{{post.id}}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>Add Comment:</label>
+                                    <input type="text" name="comment" class="form-control">
+                                </div>
+                                <button class="btn btn-success">Submit</button>
+                            </form>
+                            <hr color="darkcyan">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
