@@ -127,3 +127,6 @@ def delete_comment(request, id):
     comment_to_delete = Comment.objects.get(id=id)
     comment_to_delete.delete()
     return redirect('/newsfeed')
+
+def photos(request):
+    return render(request, 'photos.html')

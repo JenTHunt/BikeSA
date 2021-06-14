@@ -17,4 +17,5 @@ urlpatterns = [
     path('rides/<int:id>/edit', views.edit),
     path('posts/<int:id>/delete', views.delete_post),
     path('comments/<int:id>/delete', views.delete_comment),
+    path('photos', views.photos),
 ]

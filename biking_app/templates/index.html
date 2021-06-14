@@ -7,9 +7,25 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var apikey = 'cfa07720f27eed4111ee3c5bc6eb9a7c'
+            var url = "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=Houston&appid={apikey}"
+
+            $.get(url), function(res) {
+                console.log(res)
+                var htmlString = '<p>Temperature: ${res.main.temp}&#8457;<p>'
+                htmlString += '<p>Description: ${res.weather[0].description}</p>'
+                $('#forecast').html(htmlString);
+                console.log(htmlString)
+            }, 'json';
+            return false;
+        });           
+    </script>
 </head>
 <body>
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -17,7 +33,7 @@
             <div class="carousel-item active">
                 <img class="d-block w-100" src="static/images/SA-1.jpg" alt="First slide">
             </div>
-            <div class="carousel-item">
+            <!-- <div class="carousel-item">
                 <img class="d-block w-100" src="static/images/SA-2.jpg" alt="Second slide">
             </div>
             <div class="carousel-item">
@@ -31,7 +47,7 @@
         <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-        </a>
+        </a> -->
     </div>
 
     {% if messages %}
@@ -47,6 +63,9 @@
         <ul class="navbar-nav">
             <li class="nav-item active">
                 <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/photos">Photos</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -84,5 +103,17 @@
             <li><a href="https://www.sanantonio.gov/Portals/0/Files/SABikes/BikeRoutes/SABikeRides_WEB%202.pdf">Alamo HemisFair</a></li>
         </ul>
     </div>
+
+    <h2>Check out the weather forecast and plan your next ride.</h2>
+    <div class='container forecast'>
+        <div id="forecast">
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>
